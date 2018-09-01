@@ -86,18 +86,24 @@ static void TaskBlinkRedLED(void *pvParameters) // Main Red LED Flash
 //	int8_t i  = 6;
 //	uint8_t j = 0;
 
+/*
 #ifdef portHD44780_LCD
 	lcd_Init();
 #endif
+*/
 
-	DDRB |= _BV(DDB7);
+	//DDRB |= _BV(DDB7);
+	DDRD |= _BV(DDD7);
 
     for(;;)
     {
 
-    	PORTB |=  _BV(PORTB7);       // main (red IO_B7) LED on. EtherMega LED on
+    	//PORTB |=  _BV(PORTB7);       // main (red IO_B7) LED on. EtherMega LED on
+		PORTD |=  _BV(PORTD7);
+		
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
 
+/*
 #ifdef portHD44780_LCD
 		lcd_Locate (0, 0);
 		lcd_Printf_P(PSTR("Sys Tick:%7lu"), time(NULL));
@@ -122,8 +128,11 @@ static void TaskBlinkRedLED(void *pvParameters) // Main Red LED Flash
 #endif
 
 #endif
+*/
 
-		PORTB &= ~_BV(PORTB7);       // main (red IO_B7) LED off. EtherMega LED off
+		//PORTB &= ~_BV(PORTB7);       // main (red IO_B7) LED off. EtherMega LED off
+		PORTD &= ~_BV(PORTD7);
+
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
 
 //		xSerialxPrintf_P(&xSerialPort, PSTR("RedLED HighWater @ %u\r\n"), uxTaskGetStackHighWaterMark(NULL));
@@ -142,14 +151,19 @@ static void TaskBlinkGreenLED(void *pvParameters) // Main Green LED Flash
 	API function. */
 	xLastWakeTime = xTaskGetTickCount();
 
-	DDRB |= _BV(DDB5);
+	//DDRB |= _BV(DDB5);
+	DDRB |= _BV(DDB1);
 
     for(;;)
     {
-    	PORTB |=  _BV(PORTB5);       // main (red PB5) LED on. Arduino LED on
+    	//PORTB |=  _BV(PORTB5);       // main (red PB5) LED on. Arduino LED on
+		PORTB |=  _BV(PORTB1);
+		
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
 
-		PORTB &= ~_BV(PORTB5);       // main (red PB5) LED off. Arduino LED off
+		//PORTB &= ~_BV(PORTB5);       // main (red PB5) LED off. Arduino LED off
+		PORTB &= ~_BV(PORTB1);
+
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS )  );
 
 //		xSerialxPrintf_P(&xSerialPort, PSTR("Current Timestamp: %lu xTaskGetTickCount(): %u\r\n"), time(NULL), xTaskGetTickCount());

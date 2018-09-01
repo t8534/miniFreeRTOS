@@ -592,13 +592,16 @@ static void TaskBlinkGreenLED(void *pvParameters) // Main Green LED Flash
      28e:	9a 83       	std	Y+2, r25	; 0x02
      290:	89 83       	std	Y+1, r24	; 0x01
 
-	DDRB |= _BV(DDB5);
-     292:	25 9a       	sbi	0x04, 5	; 4
+	//DDRB |= _BV(DDB5);
+	DDRB |= _BV(DDB1);
+     292:	21 9a       	sbi	0x04, 1	; 4
 
     for(;;)
     {
-    	PORTB |=  _BV(PORTB5);       // main (red PB5) LED on. Arduino LED on
-     294:	2d 9a       	sbi	0x05, 5	; 5
+    	//PORTB |=  _BV(PORTB5);       // main (red PB5) LED on. Arduino LED on
+		PORTB |=  _BV(PORTB1);
+     294:	29 9a       	sbi	0x05, 1	; 5
+		
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
      296:	6f e1       	ldi	r22, 0x1F	; 31
      298:	70 e0       	ldi	r23, 0x00	; 0
@@ -606,8 +609,10 @@ static void TaskBlinkGreenLED(void *pvParameters) // Main Green LED Flash
      29c:	01 96       	adiw	r24, 0x01	; 1
      29e:	0e 94 a0 09 	call	0x1340	; 0x1340 <vTaskDelayUntil>
 
-		PORTB &= ~_BV(PORTB5);       // main (red PB5) LED off. Arduino LED off
-     2a2:	2d 98       	cbi	0x05, 5	; 5
+		//PORTB &= ~_BV(PORTB5);       // main (red PB5) LED off. Arduino LED off
+		PORTB &= ~_BV(PORTB1);
+     2a2:	29 98       	cbi	0x05, 1	; 5
+
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS )  );
      2a4:	6f e1       	ldi	r22, 0x1F	; 31
      2a6:	70 e0       	ldi	r23, 0x00	; 0
@@ -637,32 +642,35 @@ static void TaskBlinkRedLED(void *pvParameters) // Main Red LED Flash
      2bc:	0e 94 5c 08 	call	0x10b8	; 0x10b8 <xTaskGetTickCount>
      2c0:	9a 83       	std	Y+2, r25	; 0x02
      2c2:	89 83       	std	Y+1, r24	; 0x01
-
-#ifdef portHD44780_LCD
 	lcd_Init();
 #endif
+*/
 
-	DDRB |= _BV(DDB7);
-     2c4:	27 9a       	sbi	0x04, 7	; 4
+	//DDRB |= _BV(DDB7);
+	DDRD |= _BV(DDD7);
+     2c4:	57 9a       	sbi	0x0a, 7	; 10
 
     for(;;)
     {
 
-    	PORTB |=  _BV(PORTB7);       // main (red IO_B7) LED on. EtherMega LED on
-     2c6:	2f 9a       	sbi	0x05, 7	; 5
+    	//PORTB |=  _BV(PORTB7);       // main (red IO_B7) LED on. EtherMega LED on
+		PORTD |=  _BV(PORTD7);
+     2c6:	5f 9a       	sbi	0x0b, 7	; 11
+		
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
      2c8:	6f e1       	ldi	r22, 0x1F	; 31
      2ca:	70 e0       	ldi	r23, 0x00	; 0
      2cc:	ce 01       	movw	r24, r28
      2ce:	01 96       	adiw	r24, 0x01	; 1
      2d0:	0e 94 a0 09 	call	0x1340	; 0x1340 <vTaskDelayUntil>
-		if (j > _MAX_BAR) j = 0;
-#endif
 
 #endif
+*/
 
-		PORTB &= ~_BV(PORTB7);       // main (red IO_B7) LED off. EtherMega LED off
-     2d4:	2f 98       	cbi	0x05, 7	; 5
+		//PORTB &= ~_BV(PORTB7);       // main (red IO_B7) LED off. EtherMega LED off
+		PORTD &= ~_BV(PORTD7);
+     2d4:	5f 98       	cbi	0x0b, 7	; 11
+
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
      2d6:	6f e1       	ldi	r22, 0x1F	; 31
      2d8:	70 e0       	ldi	r23, 0x00	; 0
