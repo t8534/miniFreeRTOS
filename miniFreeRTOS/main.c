@@ -24,7 +24,7 @@
 #include "serial.h"
 
 /* LCD (Freetronics 16x2) interface include file. */
-#include "hd44780.h"
+//#include "hd44780.h"
 
 /*-----------------------------------------------------------*/
 /* Optionally, create reference to the handle for the serial port. */
@@ -41,9 +41,9 @@ int main(void) __attribute__ ((OS_main));
 int main(void)
 {
     // turn on the serial port for debugging or for other USART reasons.
-//	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 
-//	avrSerialxPrint_P(&xSerialPort, PSTR("\r\n\n\nHello World!\r\n")); // Ok, so we're alive...
+	avrSerialxPrint_P(&xSerialPort, PSTR("\r\n\n\nHello World!\r\n")); // Ok, so we're alive...
 
     xTaskCreate(
 		TaskBlinkRedLED
@@ -62,11 +62,12 @@ int main(void)
 		,  NULL ); // */
 
 
-//	avrSerialxPrintf_P(&xSerialPort, PSTR("Free Heap Size: %u\r\n"), xPortGetFreeHeapSize() ); // needs heap_1,  heap_2 or heap_4 for this function to succeed.
-//	avrSerialxPrintf_P(&xSerialPort, PSTR("Minimum Free Heap Size: %u\r\n"), xPortGetMinimumEverFreeHeapSize() ); // needs heap_4 for this function to succeed.
+	//arek: not in heap3.c
+	//avrSerialxPrintf_P(&xSerialPort, PSTR("Free Heap Size: %u\r\n"), xPortGetFreeHeapSize() ); // needs heap_1,  heap_2 or heap_4 for this function to succeed.
+	//avrSerialxPrintf_P(&xSerialPort, PSTR("Minimum Free Heap Size: %u\r\n"), xPortGetMinimumEverFreeHeapSize() ); // needs heap_4 for this function to succeed.
 	vTaskStartScheduler();
 
-//	avrSerialxPrint_P(&xSerialPort, PSTR("\r\n\n\nGoodbye... no space for idle task!\r\n")); // Doh, so we're dead...
+	avrSerialxPrint_P(&xSerialPort, PSTR("\r\n\n\nGoodbye... no space for idle task!\r\n")); // Doh, so we're dead...
 
 }
 
@@ -135,7 +136,7 @@ static void TaskBlinkRedLED(void *pvParameters) // Main Red LED Flash
 
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
 
-//		xSerialxPrintf_P(&xSerialPort, PSTR("RedLED HighWater @ %u\r\n"), uxTaskGetStackHighWaterMark(NULL));
+		xSerialxPrintf_P(&xSerialPort, PSTR("RedLED HighWater @ %u\r\n"), uxTaskGetStackHighWaterMark(NULL));
     }
 
 }
@@ -166,7 +167,7 @@ static void TaskBlinkGreenLED(void *pvParameters) // Main Green LED Flash
 
 		vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS )  );
 
-//		xSerialxPrintf_P(&xSerialPort, PSTR("Current Timestamp: %lu xTaskGetTickCount(): %u\r\n"), time(NULL), xTaskGetTickCount());
+		xSerialxPrintf_P(&xSerialPort, PSTR("Current Timestamp: %lu xTaskGetTickCount(): %u\r\n"), time(NULL), xTaskGetTickCount());
 //		xSerialxPrintf_P(&xSerialPort, PSTR("Minimum Free Heap Size: %u\r\n"), xPortGetMinimumEverFreeHeapSize() ); // needs heap_4 for this function to succeed.
     }
 }

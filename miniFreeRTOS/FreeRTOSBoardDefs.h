@@ -65,6 +65,13 @@ extern "C" {
 //	xxx Watchdog Timer is 128kHz nominal, but 120 kHz at 5V DC and 25 degrees is actually more accurate, from data sheet.
 #define configTICK_RATE_HZ 		( (TickType_t)( (uint32_t)128000 >> (portUSE_WDTO + 11) ) )  // 2^11 = 2048 WDT scaler for 128kHz Timer
 
+
+// Serial for UNO (arek)
+#define	portSERIAL_BUFFER_RX	32		// Define the size of the serial receive buffer.
+#define	portSERIAL_BUFFER_TX	128		// Define the size of the serial transmit buffer, only as long as the longest line of text.
+#define portSERIAL_BUFFER		portSERIAL_BUFFER_TX	// Set the default serial buffer to be the Tx size.
+
+
 #ifdef __cplusplus
 }
 #endif
